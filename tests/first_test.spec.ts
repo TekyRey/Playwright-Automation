@@ -15,6 +15,6 @@ test("Investments link", async ({ page }) => {
 
   // Expects page to have a heading with the name of Installation.
   await expect(
-    page.getByRole("heading", { name: "Portfolio Summarukfmcgnjhrsyy" })
+    page.getByRole("heading", { name: "Portfolio Summary" })
   ).toBeVisible();
 });
