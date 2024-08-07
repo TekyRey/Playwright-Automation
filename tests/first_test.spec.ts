@@ -11,7 +11,7 @@ test("Investments link", async ({ page }) => {
   await page.goto("https://app.testing2.naymsnext.com/");
 
   // Click the get started link.
-  await page.getByRole("link", { name: "Investments" }).click();
+  await page.getByRole("link", { name: "Investment" }).click();
 
   // Expects page to have a heading with the name of Installation.
   await expect(
