@@ -15,5 +15,6 @@ test("Login user on sauce demo", async ({ page }) => {
     // Expects page to have a heading with the name of Products.
     await expect(page).toHaveTitle(/Swag Labs/);
     
+    
 });
 

@@ -1,6 +1,6 @@
 # Test Automation using playwright
 
-This repository contains will contain UI tests for the Nayms application using Playwright.
+This repository will contain UI tests for the Nayms application using Playwright.
 
 ## Description
 
