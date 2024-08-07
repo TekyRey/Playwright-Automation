@@ -11,10 +11,10 @@ test("Investments link", async ({ page }) => {
   await page.goto("https://app.testing2.naymsnext.com/");
 
   // Click the get started link.
-  await page.getByRole("link", { name: "Investment" }).click();
+  await page.getByRole("link", { name: "Investments" }).click();
 
   // Expects page to have a heading with the name of Installation.
   await expect(
-    page.getByRole("heading", { name: "Portfolio Summary" })
+    page.getByRole("heading", { name: "Portfolio Summarukfmcgnjhrsyy" })
   ).toBeVisible();
 });
