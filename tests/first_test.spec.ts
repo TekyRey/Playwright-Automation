@@ -1,13 +1,16 @@
 import { test, expect } from "@playwright/test";
+import { NaymsAppPage } from "../pages/NaymsAppPage";
 
 test.describe("Nayms App Tests", () => {
+  let naymsApp: NaymsAppPage;
+
   // Hook to navigate to the page before each test
   test.beforeEach(async ({ page }) => {
-    await page.goto("https://app.testing2.naymsnext.com/");
+    naymsApp = new NaymsAppPage(page);
+    await naymsApp.goto();
   });
 
-  test("has title", async ({ page }) => {
-    // @ts-ignore: Unreachable code error
+  test("has title", async () => {
     test
       .info()
       .annotations.push({ type: "Test", description: "Check the page title" });
@@ -15,11 +18,10 @@ test.describe("Nayms App Tests", () => {
     test.info().annotations.push({ type: "tag", description: "sanity" });
 
     // Expect the title to contain "Nayms"
-    await expect(page).toHaveTitle(/Nayms/);
+    await expect(await naymsApp.getTitle()).toContain("Nayms");
   });
 
-  test("Investments link", async ({ page }) => {
-    // @ts-ignore: Unreachable code error
+  test("Investments link", async () => {
     test
       .info()
       .annotations.push({
@@ -28,15 +30,12 @@ test.describe("Nayms App Tests", () => {
       });
     test.info().annotations.push({ type: "tag", description: "navigation" });
     test.info().annotations.push({ type: "tag", description: "investments" });
-    test.slow();
-
+    test.slow(); //default is 90 seconds
 
     // Click the Investments link
-    await page.getByRole("link", { name: "Investments" }).click();
+    await naymsApp.clickInvestmentsLink();
 
     // Expect the Portfolio Summary heading to be visible
-    await expect(
-      page.getByRole("heading", { name: "Portfolio Summary" })
-    ).toBeVisible();
+    await expect(await naymsApp.isPortfolioSummaryVisible()).toBe(true);
   });
 });
