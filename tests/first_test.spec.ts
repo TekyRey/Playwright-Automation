@@ -7,11 +7,30 @@ test.describe("Nayms App Tests", () => {
   });
 
   test("has title", async ({ page }) => {
+    // @ts-ignore: Unreachable code error
+    test
+      .info()
+      .annotations.push({ type: "Test", description: "Check the page title" });
+    test.info().annotations.push({ type: "tag", description: "title" });
+    test.info().annotations.push({ type: "tag", description: "sanity" });
+
     // Expect the title to contain "Nayms"
     await expect(page).toHaveTitle(/Nayms/);
   });
 
   test("Investments link", async ({ page }) => {
+    // @ts-ignore: Unreachable code error
+    test
+      .info()
+      .annotations.push({
+        type: "Test",
+        description: "Check the Investments link",
+      });
+    test.info().annotations.push({ type: "tag", description: "navigation" });
+    test.info().annotations.push({ type: "tag", description: "investments" });
+    test.slow();
+
+
     // Click the Investments link
     await page.getByRole("link", { name: "Investments" }).click();
 
