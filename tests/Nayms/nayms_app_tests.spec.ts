@@ -1,85 +1,55 @@
 import { test, expect } from "@playwright/test";
+import { HomePage } from "../../pages/Homepage";
+import { RegisterPage } from "../../pages/RegisterPage";
+import { LoginPage } from "../../pages/LoginPage";
+import { DashboardPage } from "../../pages/DashboardPage";
 
 test.describe("Nayms demo app Tests", () => {
-  // Registering yourself as a client on Nayms
   test("Registering yourself as a client on Nayms", async ({ page }) => {
-    test.slow(); // Marks the test as slow
-    await page.goto("https://app.testing2.naymsnext.com/");
-    await page.getByRole("button", { name: "Register" }).click();
-    await page
-      .locator("div")
-      .filter({
-        hasText:
-          /^Stake NAYM onlyEarn rewards with the native token of Nayms\.$/,
-      })
-      .first()
-      .click();
-    await page.getByRole("button", { name: "Continue" }).click();
-    await page
-      .locator("fieldset")
-      .filter({ hasText: "First Name *" })
-      .getByRole("textbox")
-      .click();
-    await page
-      .locator("fieldset")
-      .filter({ hasText: "First Name *" })
-      .getByRole("textbox")
-      .fill("Rehema");
-    await page
-      .locator("fieldset")
-      .filter({ hasText: "Last Name *" })
-      .getByRole("textbox")
-      .click();
-    await page
-      .locator("fieldset")
-      .filter({ hasText: "Last Name *" })
-      .getByRole("textbox")
-      .fill("Playwrighttest4TokenHolderAug8");
-    await page.locator('input[type="email"]').click();
-    await page
-      .locator('input[type="email"]')
-      .fill("mwakabayah+Playwrighttest4TokenHolderAug8@gmail.com");
-    await page.getByLabel("I agree to the Platform Terms").click();
-    await page.getByRole("button", { name: "Continue" }).click();
+    test.slow();
 
-    // pause to wait for me to enter OTP manually
+    const homePage = new HomePage(page);
+    const registerPage = new RegisterPage(page);
+
+    await homePage.navigate();
+    await homePage.clickRegister();
+    await registerPage.selectStakeOption();
+    await registerPage.fillRegistrationForm(
+      "Rehema",
+      "Playwrighttest6TokenHolderAug8",
+      "mwakabayah+Playwrighttest6TokenHolderAug8@gmail.com"
+    );
+
+    // Pause for manual OTP entry
     await page.pause();
 
-    await page.getByRole("button", { name: "Continue" }).click();
-    await page.getByRole("button", { name: "Continue to Dashboard" }).click();
+    await registerPage.confirmRegistration();
 
-    // Ensure registration is successful
     await expect(page).toHaveURL("https://app.testing2.naymsnext.com/token");
   });
 
-  // Login to your account
   test("Login to your account", async ({ page }) => {
-    test.slow(); // Marks the test as slow
-    await page.goto("https://app.testing2.naymsnext.com/");
-    await page.getByRole("button", { name: "Sign in" }).click();
+    test.slow();
 
-    await page
-      .locator('input[type="email"]')
-      .fill("mwakabayah+Playwrighttest4TokenHolderAug8@gmail.com");
-    await page
-      .locator("#modal-root")
-      .getByRole("button", { name: "Sign in" })
-      .click();
+    const homePage = new HomePage(page);
+    const loginPage = new LoginPage(page);
+    const dashboardPage = new DashboardPage(page);
 
-    // pause to wait for me to enter OTP manually
+    await homePage.navigate();
+    await homePage.clickSignIn();
+    await loginPage.login(
+      "mwakabayah+Playwrighttest4TokenHolderAug8@gmail.com"
+    );
+
+    // Pause for manual OTP entry
     await page.pause();
 
-    await page.getByRole("button", { name: "Continue" }).click();
+    await loginPage.confirmLogin();
 
     await expect(page).toHaveURL("https://app.testing2.naymsnext.com/token");
 
-    await page.getByRole("button", { name: "User menu" }).click();
-    await page
-      .locator("div")
-      .filter({ hasText: /^Sign out$/ })
-      .click();
+    await dashboardPage.signOut();
 
-    // page should have register button
     await expect(
       page
         .locator("button")
